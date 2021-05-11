@@ -1,0 +1,15 @@
+{
+  "name": "anton.zylyov/base_microservice",
+  "description": "Base classes for microservices project",
+  "require": {
+    "slim/slim": "4.5.0",
+    "slim/psr7": "1.2.0",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "BaseMicroservice\\": "src/"
+    }
+  }
+}
