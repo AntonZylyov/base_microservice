@@ -5,7 +5,9 @@
     "slim/slim": "4.5.0",
     "slim/psr7": "1.2.0",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^7.2"
+    "guzzlehttp/guzzle": "^7.2",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*"
   },
   "autoload": {
     "psr-4": {
