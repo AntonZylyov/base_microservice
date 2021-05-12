@@ -71,7 +71,7 @@ class Application
 
 	public function addHealthCheckRoute(): void
 	{
-		$this->app->addRoute(
+		$this->addRoute(
 			HttpMethod::GET,
 			'/health',
 			static function (Context $context): array
