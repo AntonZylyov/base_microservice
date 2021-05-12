@@ -39,6 +39,7 @@ class Application
 			!in_array(
 				$method,
 				[
+					HttpMethod::ANY,
 					HttpMethod::GET,
 					HttpMethod::POST,
 					HttpMethod::PUT,
