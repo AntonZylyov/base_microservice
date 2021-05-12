@@ -9,7 +9,7 @@ class Database
 	protected string $password = '';
 
 	protected \PDO $connection;
-	protected static self $instance;
+	protected static $instance;
 
 	public static function getInstance(): self
 	{
