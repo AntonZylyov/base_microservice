@@ -8,7 +8,7 @@ class Database
 	protected string $username = '';
 	protected string $password = '';
 
-	protected \PDO $connection;
+	protected $connection;
 	protected static $instance;
 
 	public static function getInstance(): self
