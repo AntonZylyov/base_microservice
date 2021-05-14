@@ -21,7 +21,7 @@ class Config
 
 	public function initFromEnv(): void
 	{
-		$this->config = $_ENV;
+		$this->config = getenv();
 	}
 
 	public function getDatabaseDsn(): string
