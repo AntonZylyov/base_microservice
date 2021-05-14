@@ -40,6 +40,11 @@ class Context
 		return $this->response;
 	}
 
+	public function addResponseHeader($name, $value)
+	{
+		$this->response = $this->response->withHeader($name, $value);
+	}
+
 	public function getRouteArgs()
 	{
 		return $this->routeArgs;
