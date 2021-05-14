@@ -72,7 +72,7 @@ abstract class Entity
 			$fields['idempotenceKey'] = $this->getIdempotenceKey();
 		}
 
-		$id = $fields['id'];
+		$id = $fields['id'] ?? null;
 		unset($fields['id']);
 		if ($id > 0)
 		{
