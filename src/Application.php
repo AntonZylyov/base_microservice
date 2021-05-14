@@ -62,7 +62,7 @@ class Application
 					$args
 				);
 				$result = $callback($context);
-				$response->getBody()->write(json_encode($result));
+				$response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR));
 
 				return $response
 					->withHeader('Content-Type', 'application/json');
