@@ -59,7 +59,7 @@ class Database
 		foreach ($fields as $fieldName => $fieldValue)
 		{
 			$sqlFields[] = "`$fieldName` = ?";
-			$replacements[] = (string)$fieldValue;
+			$replacements[] = $fieldValue === false ? 0 : (string)$fieldValue;
 		}
 		$replacements[] = $id;
 		$sql = "UPDATE " . $tableName . " SET " . implode(', ', $sqlFields) . " WHERE id = ?";
