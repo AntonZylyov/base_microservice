@@ -56,21 +56,33 @@ abstract class Entity
 
 	public function toArray(): array
 	{
-		return $this->fields;
+		$fields = $this->fields;
+		if (isset($fields['idempotenceKey']))
+		{
+			unset($fields['idempotenceKey']);
+		}
+
+		return $fields;
 	}
 
 	protected function getFieldsForSave(): array
 	{
-		return $this->fields;
+		$fields = $this->fields;
+		if (
+			isset($fields['idempotenceKey'])
+			&& isset($fields['id'])
+			&& (int)$fields['id'] > 0
+		)
+		{
+			unset($fields['idempotenceKey']);
+		}
+
+		return $fields;
 	}
 
 	public function save(): void
 	{
 		$fields = $this->getFieldsForSave();
-		if ($this->isIdempotenceSupported())
-		{
-			$fields['idempotenceKey'] = $this->getIdempotenceKey();
-		}
 
 		$id = $fields['id'] ?? null;
 		unset($fields['id']);
@@ -80,6 +92,10 @@ abstract class Entity
 		}
 		else
 		{
+			if ($this->isIdempotenceSupported())
+			{
+				$fields['idempotenceKey'] = $this->getIdempotenceKey();
+			}
 			$id = $this->db->add(static::getTableName(), $fields);
 			if (!$id)
 			{
