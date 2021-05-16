@@ -39,7 +39,7 @@ abstract class Service
 		{
 			$tryCount++;
 			$result = $this->doRequest($endpoint, $requestOptions, $httpMethod);
-			if ($result->isSuccess())
+			if ($result->isSuccess() || !$result->hasInfrastructureError())
 			{
 				break;
 			}
@@ -63,7 +63,7 @@ abstract class Service
 			$decoded = json_decode($response->getBody()->getContents(), true, 128, JSON_THROW_ON_ERROR);
 			if (!is_array($decoded))
 			{
-				$result->setError('Wrong response');
+				$result->setInfrastructureError('Wrong response');
 			}
 			else
 			{
@@ -79,7 +79,7 @@ abstract class Service
 		}
 		catch (GuzzleException $e)
 		{
-			$result->setError($e->getMessage());
+			$result->setInfrastructureError($e->getMessage());
 		}
 
 		return $result;

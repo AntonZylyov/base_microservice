@@ -6,6 +6,7 @@ class Result
 {
 	private array $data = [];
 	private bool $hasError = false;
+	private bool $hasInfrastructureError = false;
 	private string $error = '';
 
 	public function setData(array $data): void
@@ -16,6 +17,17 @@ class Result
 	public function getData(): array
 	{
 		return $this->data;
+	}
+
+	public function setInfrastructureError(string $error): void
+	{
+		$this->setError($error);
+		$this->hasInfrastructureError = true;
+	}
+
+	public function hasInfrastructureError(): bool
+	{
+		return $this->hasInfrastructureError;
 	}
 
 	public function setError(string $error): void
