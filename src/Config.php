@@ -8,7 +8,7 @@ class Config
 
 	public static function createFromEnv(): self
 	{
-		$instance = new self();
+		$instance = new static();
 		$instance->initFromEnv();
 
 		return $instance;
