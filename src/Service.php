@@ -24,12 +24,14 @@ abstract class Service
 
 		$requestOptions = [
 			'headers' => [
+				'Content-Type' => 'application/json',
 				'X-Request-Id' => bin2hex(random_bytes(16)),
-			]
+			],
+			'connect_timeout' => 1,
 		];
 		if (!empty($params))
 		{
-			$requestOptions['body'] = json_encode($params);
+			$requestOptions['body'] = json_encode($params, JSON_THROW_ON_ERROR);
 		}
 
 		$tryCount = 0;
@@ -58,7 +60,7 @@ abstract class Service
 				$this->getHost() . $endpoint,
 				$requestOptions
 			);
-			$decoded = json_decode($response->getBody()->getContents(), true);
+			$decoded = json_decode($response->getBody()->getContents(), true, 128, JSON_THROW_ON_ERROR);
 			if (!is_array($decoded))
 			{
 				$result->setError('Wrong response');
@@ -67,7 +69,7 @@ abstract class Service
 			{
 				if (isset($decoded['error']))
 				{
-					$result->setData($decoded['error']);
+					$result->setError($decoded['error']);
 				}
 				else
 				{
