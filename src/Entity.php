@@ -7,7 +7,6 @@ use BaseMicroservice\Exception\EntityException;
 abstract class Entity
 {
 	protected array $fields = [];
-	protected string $idempotenceKey = '';
 	protected Database $db;
 
 	public static function getById(int $id): ?self
@@ -25,22 +24,6 @@ abstract class Entity
 		$this->db = \BaseMicroservice\Database::getInstance();
 	}
 
-	public function isIdempotenceSupported(): bool
-	{
-		return true;
-	}
-
-	public function setIdempotenceKey(string $key): self
-	{
-		$this->idempotenceKey = $key;
-		return $this;
-	}
-
-	public function getIdempotenceKey(): string
-	{
-		return $this->idempotenceKey;
-	}
-
 	abstract protected static function getTableName(): string;
 	abstract public static function createFromArray(array $fields): self;
 
@@ -56,28 +39,12 @@ abstract class Entity
 
 	public function toArray(): array
 	{
-		$fields = $this->fields;
-		if (isset($fields['idempotenceKey']))
-		{
-			unset($fields['idempotenceKey']);
-		}
-
-		return $fields;
+		return $this->fields;
 	}
 
 	protected function getFieldsForSave(): array
 	{
-		$fields = $this->fields;
-		if (
-			isset($fields['idempotenceKey'])
-			&& isset($fields['id'])
-			&& (int)$fields['id'] > 0
-		)
-		{
-			unset($fields['idempotenceKey']);
-		}
-
-		return $fields;
+		return $this->fields;
 	}
 
 	public function save(): void
@@ -92,10 +59,6 @@ abstract class Entity
 		}
 		else
 		{
-			if ($this->isIdempotenceSupported())
-			{
-				$fields['idempotenceKey'] = $this->getIdempotenceKey();
-			}
 			$id = $this->db->add(static::getTableName(), $fields);
 			if (!$id)
 			{
