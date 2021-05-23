@@ -23,6 +23,7 @@ class Context
 		$this->application = $application;
 		$this->request = $request;
 		$this->response = $response;
+		$this->routeArgs = $routeArgs;
 	}
 
 	public function getApplication(): Application
